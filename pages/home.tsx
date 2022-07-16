@@ -1,4 +1,4 @@
-import { View, Image, Text, TouchableOpacity, ScrollView, TextInput } from 'react-native';
+import { View, Image, Text, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native';
 import styles from '../css/home';
 import home1 from '../images/home1.png';
 import home2 from '../images/home2.png';
@@ -7,6 +7,9 @@ import insta from '../images/insta.png';
 import me from '../images/me.jpeg';
 import React, { useCallback, useState, useRef } from 'react';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import * as ImagePicker from 'expo-image-picker'
+import { getDownloadURL, getStorage, ref, uploadBytesResumable, uploadBytes } from "firebase/storage";
+
 
 export default function Home() {
 
@@ -18,6 +21,52 @@ export default function Home() {
         setIsOpen(true)
     }, []);
 
+    const storage = getStorage();
+    const [image, setImage] = useState(null);
+
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1
+        });
+        const source = { uri: result.uri };
+        console.log(source);
+        setImage(source)
+    }
+
+    const uploadImage = () => {
+        const storageRef = ref(storage, 'image');
+
+        uploadBytes(storageRef, image).then((snapshot) => {
+            console.log('Uploaded a blob or file!');
+            setImage(null)
+        }).catch((error) => {
+            console.log(error);
+
+        })
+
+    }
+
+    // const uploadImage = (file) => {
+    //     if (!file) return;
+    //     const storageRef = ref(storage, `/file/${file.name}`)
+    //     const uploadTask = uploadBytesResumable(storageRef, file);
+
+    //     uploadTask.on("state_changed", (snapshot) => {
+    //         const prog = Math.round(
+    //             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+    //         );
+
+    //         setProgress(prog);
+    //     },
+    //         (err) => console.log(err),
+    //         () => {
+    //             getDownloadURL(uploadTask.snapshot.ref).then((url) => console.log(url))
+    //         }
+    //     )
+    // }
 
     return (
         <ScrollView>
@@ -83,16 +132,16 @@ export default function Home() {
 
                             <Text>Photo*</Text>
                             <View style={styles.btnContainer}>
-                                <TouchableOpacity style={styles.UploadButton}>
+                                <TouchableOpacity style={styles.UploadButton} onPress={pickImage}>
                                     <Text style={styles.UploadText}>Upload photo</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles.TakePhotoBtn}>
                                     <Text style={styles.TakePhotoText}>Take photo</Text>
                                 </TouchableOpacity>
                             </View>
-                            {/* <Image source={me} style={{ width: 100, height: 100 }} /> */}
-                            <TouchableOpacity style={styles.sendImgBtn}>
-                                <Text style={styles.UploadText}>Share</Text>
+                            {image ? <Image source={{ uri: image.uri }} style={{ width: 100, height: 100 }} /> : null}
+                            <TouchableOpacity style={styles.sendImgBtn} onPress={() => uploadImage(image)}>
+                                <Text style={styles.UploadText} >Share</Text>
                             </TouchableOpacity>
                         </View>
                     </BottomSheetView>
