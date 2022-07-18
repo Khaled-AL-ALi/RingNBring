@@ -5,20 +5,21 @@ import { AntDesign } from '@expo/vector-icons';
 import googleIcon from '../images/googleIcon.png';
 import { useNavigation } from '@react-navigation/core';
 import { NavigationContainer } from '@react-navigation/native';
-import { signInWithPopup } from "firebase/auth";
-import { authentication, provider } from '../firebase';
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { authentication } from '../firebase';
 
 export default function Register() {
 
     const navigation = useNavigation()
 
     const signInWithGoogle = () => {
-        signInWithPopup(authentication, provider)
-            .then((result) => {
-                console.log(result)
-            }).catch((error) => {
-                console.log(error)
-            });
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(authentication, provider).then((result) => {
+            console.log(result)
+            navigation.navigate("Share your experience")
+        }).catch((error) => {
+            console.log(error)
+        });
     }
 
     return (

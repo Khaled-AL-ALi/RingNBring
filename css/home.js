@@ -43,7 +43,7 @@ export default StyleSheet.create({
         justifyContent: "center",
         borderRadius: 10,
         borderColor: '#4487AF',
-        marginTop: 25,
+        marginTop: 15,
         marginBottom: 20
     },
     shareText: {
@@ -147,5 +147,48 @@ export default StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between'
-    }
+    },
+    modalContainer: {
+        width: '90%',
+        backgroundColor: 'white',
+        height: 150,
+        borderRadius: 15,
+        justifyContent: 'center',
+        marginLeft: 'auto',
+        marginRight: 'auto'
+    },
+    YesBtn: {
+        borderWidth: 1,
+        width: "40%",
+        alignItems: 'center',
+        height: 50,
+        justifyContent: "center",
+        borderRadius: 10,
+        borderColor: '#4487AF',
+        margin: 7,
+        backgroundColor: '#4487AF'
+    },
+    YesText: {
+        color: "white",
+        fontSize: 18,
+    },
+    thanksMessage: {
+        textAlign: 'center',
+        fontSize: 20
+    },
+    btnOkayContainer: {
+        display: 'flex',
+        flexDirection: "row",
+        justifyContent: 'center',
+    },
+    goToProfile: {
+        borderWidth: 1,
+        alignItems: 'center',
+        height: 50,
+        justifyContent: "center",
+        borderRadius: 10,
+        borderColor: '#4487AF',
+        marginTop: 25,
+        marginBottom: 2
+    },
 });

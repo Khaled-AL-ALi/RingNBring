@@ -13,7 +13,7 @@ export default function App() {
   return (
 
     <NavigationContainer independent={true}>
-      <Stack.Navigator initialRouteName="Share your experience">
+      <Stack.Navigator initialRouteName="Login or sign up">
         <Stack.Screen name="Share your experience" component={Home} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Login or sign up" component={Register} />

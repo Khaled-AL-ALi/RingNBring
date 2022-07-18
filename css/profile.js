@@ -74,5 +74,13 @@ export default StyleSheet.create({
         flexDirection: "row",
         justifyContent: 'center',
         marginTop: 25
-    }
+    },
+    savebtn: {
+        marginTop: 5,
+        color: '#4487AF',
+        textDecorationLine: 'underline',
+        fontSize: 16,
+        position: 'absolute',
+        right: 15,
+    },
 });
