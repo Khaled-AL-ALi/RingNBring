@@ -42,12 +42,26 @@ export default StyleSheet.create({
         borderRadius: 5,
         height: 75
     },
+    InputFieldError: {
+        borderBottomWidth: 1,
+        borderColor: 'red',
+        borderRadius: 5,
+        height: 75,
+
+    },
     container: {
-        display: 'flex',
-        alignItems: 'center'
+        display: 'flex', alignItems: 'center', paddingTop: 10
     },
     subContainer: {
-        width: '90%',
-        marginTop: 20
+        paddingTop: 10
+    },
+    noAccount: {
+        textAlign: 'center'
+    },
+    createNew: {
+        textAlign: 'center', color: 'blue'
+    },
+    errorMessage: {
+        color: 'red', paddingBottom: 25, textAlign: 'center', paddingTop: 7
     }
 });

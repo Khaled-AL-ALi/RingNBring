@@ -1,13 +1,14 @@
 import { Text, View, TouchableOpacity, TextInput } from 'react-native';
 import styles from '../css/login';
 import React from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/core';
-import { authentication } from '../firebase';
+import { doc, setDoc } from 'firebase/firestore';
+import { authentication, db } from '../firebase';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-export default function Login() {
+export default function Signup() {
 
     const navigation = useNavigation()
 
@@ -16,20 +17,23 @@ export default function Login() {
         password: '',
     }
 
-    const LoginSchema = Yup.object().shape({
+    const registerSchema = Yup.object().shape({
         email: Yup.string().email('Email should be an Email').required('Email required'),
         password: Yup.string().required('password required'),
     });
 
-    const loginUser = (values) => {
+    const registerUser = (values) => {
         const email = values.email;
         const password = values.password;
-        signInWithEmailAndPassword(authentication, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                console.log('loged in !');
-                navigation.navigate("Share your experience")
-
+        createUserWithEmailAndPassword(authentication, email, password)
+            .then((result) => {
+                console.log(result);
+                navigation.navigate("Log In")
+                setDoc(doc(db, "accounts", authentication.currentUser.uid), {
+                    fullName: "",
+                    phoneNumber: "",
+                    eamil: email
+                })
             })
             .catch((error) => {
                 console.log(error.message);
@@ -37,7 +41,9 @@ export default function Login() {
     }
 
     return (
-        <Formik initialValues={userInfo} validationSchema={LoginSchema} onSubmit={(values) => loginUser(values)} >
+
+        <Formik initialValues={userInfo} validationSchema={registerSchema} onSubmit={(values) => registerUser(values)} >
+
 
             {({ values, handleChange, errors, handleBlur, touched, validateOnBlur, handleSubmit }) => (
                 <>
@@ -66,20 +72,16 @@ export default function Login() {
                             <Text style={styles.errorMessage}>{errors.password}</Text>
                             : null
                     }
-
                     <View style={styles.container}>
                         <TouchableOpacity style={styles.RegisterBtn} onPress={handleSubmit}>
-                            <Text style={styles.RegisterText} >LogIn</Text>
+                            <Text style={styles.RegisterText} >Signup</Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.subContainer}>
-                        <Text style={styles.noAccount}>dont have account?</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('Create New Account')}>
-                            <Text style={styles.createNew}>Create New</Text>
-                        </TouchableOpacity>
-                    </View>
+
                 </>
             )}
+
         </Formik>
+
     );
 }

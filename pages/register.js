@@ -37,7 +37,7 @@ export default function Register() {
                     <Text style={styles.googleText}>Continue with Google</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.emailBtn} onPress={() => navigation.navigate('Create New Account')}>
+                <TouchableOpacity style={styles.emailBtn} onPress={() => navigation.navigate('Log In')}>
                     <Text style={styles.emailText}>Continue with email</Text>
                 </TouchableOpacity>
 

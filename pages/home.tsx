@@ -5,7 +5,7 @@ import home2 from '../images/home2.png';
 import home3 from '../images/home3.png';
 import insta from '../images/insta.png';
 import me from '../images/me.jpeg';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import * as ImagePicker from 'expo-image-picker';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -39,10 +39,15 @@ export default function Home() {
             aspect: [4, 3],
             quality: 1
         });
+        console.log({result});
+
         const source = { uri: result.uri };
+
         console.log(source);
         setImage(source)
+        
     }
+        console.log('====>',image);
 
     const openCamera = async () => {
 
@@ -55,12 +60,22 @@ export default function Home() {
         }
     }
 
+
     const uploadImage = async () => {
-
-        const imgRef = ref(storage, `avatar / ${new Date().getTime()}`);
-
+        let filename = image.uri.split('/').pop();
+        let match = /\.(\w+)$/.exec(filename);
+        let type = match ? `image/${match[1]}` : `image`;
+        const imgRef = ref(storage, `avatar/${new Date().getTime()}-${filename}`);
+        const metadata = {
+            contentType: type,
+            size:1024
+          };
         try {
-            const snap = await uploadBytes(imgRef, image)
+            let img = await fetch(image.uri)
+            let bytes = await img.blob()
+            const snap = await uploadBytes(imgRef, bytes, metadata)
+            console.log({snap});
+            
             const url = await getDownloadURL(ref(storage, snap.ref.fullPath));
             await setDoc(doc(db, "potentialFeedbacks", authentication.currentUser.uid), {
                 username: instauser,
@@ -69,7 +84,7 @@ export default function Home() {
             })
             console.log('Uploaded a blob or file!');
             setImage(null)
-            setModalVisible(!isModalVisible);
+            setModalVisible(true);
         } catch (err) {
             console.log(err.message)
         }
