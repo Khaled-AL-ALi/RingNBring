@@ -39,8 +39,9 @@ export default function Login() {
     return (
         <Formik initialValues={userInfo} validationSchema={LoginSchema} onSubmit={(values) => loginUser(values)} >
 
-            {({ values, handleChange, errors, handleBlur, touched, validateOnBlur, handleSubmit }) => (
+            {({ values, handleChange, errors, handleBlur, touched, handleSubmit }) => (
                 <>
+
                     <Text style={errors.email && touched.email ? { color: 'red' } : { color: 'black' }}>Email</Text>
                     <TextInput
                         onChangeText={handleChange('email')}

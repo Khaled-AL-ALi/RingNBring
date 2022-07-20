@@ -11,39 +11,40 @@ import * as Yup from 'yup';
 export default function Signup() {
 
     const navigation = useNavigation()
-
     const userInfo = {
         email: '',
         password: '',
     }
 
-    const registerSchema = Yup.object().shape({
+    const registerUserSchema = Yup.object().shape({
         email: Yup.string().email('Email should be an Email').required('Email required'),
         password: Yup.string().required('password required'),
     });
 
     const registerUser = (values) => {
+
         const email = values.email;
         const password = values.password;
+
         createUserWithEmailAndPassword(authentication, email, password)
             .then((result) => {
-                console.log(result);
+                console.log('result', result);
                 navigation.navigate("Log In")
                 setDoc(doc(db, "accounts", authentication.currentUser.uid), {
                     fullName: "",
                     phoneNumber: "",
-                    eamil: email
+                    eamil: email,
+                    Role: 'user'
                 })
             })
             .catch((error) => {
                 console.log(error.message);
+                console.log(error.code);
             })
     }
 
     return (
-
-        <Formik initialValues={userInfo} validationSchema={registerSchema} onSubmit={(values) => registerUser(values)} >
-
+        <Formik initialValues={userInfo} validationSchema={registerUserSchema} onSubmit={(values) => registerUser(values)} >
 
             {({ values, handleChange, errors, handleBlur, touched, validateOnBlur, handleSubmit }) => (
                 <>
@@ -72,16 +73,18 @@ export default function Signup() {
                             <Text style={styles.errorMessage}>{errors.password}</Text>
                             : null
                     }
+
                     <View style={styles.container}>
                         <TouchableOpacity style={styles.RegisterBtn} onPress={handleSubmit}>
-                            <Text style={styles.RegisterText} >Signup</Text>
+                            <Text style={styles.RegisterText} >signeup</Text>
                         </TouchableOpacity>
                     </View>
 
                 </>
             )}
-
         </Formik>
-
-    );
+    )
 }
+
+
+

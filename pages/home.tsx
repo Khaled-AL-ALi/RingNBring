@@ -39,15 +39,15 @@ export default function Home() {
             aspect: [4, 3],
             quality: 1
         });
-        console.log({result});
+        console.log({ result });
 
         const source = { uri: result.uri };
 
         console.log(source);
         setImage(source)
-        
+
     }
-        console.log('====>',image);
+    console.log('====>', image);
 
     const openCamera = async () => {
 
@@ -68,14 +68,14 @@ export default function Home() {
         const imgRef = ref(storage, `avatar/${new Date().getTime()}-${filename}`);
         const metadata = {
             contentType: type,
-            size:1024
-          };
+            size: 1024
+        };
         try {
             let img = await fetch(image.uri)
             let bytes = await img.blob()
             const snap = await uploadBytes(imgRef, bytes, metadata)
-            console.log({snap});
-            
+            console.log({ snap });
+
             const url = await getDownloadURL(ref(storage, snap.ref.fullPath));
             await setDoc(doc(db, "potentialFeedbacks", authentication.currentUser.uid), {
                 username: instauser,
@@ -125,11 +125,6 @@ export default function Home() {
                         <Text style={styles.instaText}>restoscenes</Text>
                     </View>
                     <View style={styles.ImagesContainer}>
-                        <Image source={me} style={styles.instaImages} />
-                        <Image source={me} style={styles.instaImages} />
-                        <Image source={me} style={styles.instaImages} />
-                        <Image source={me} style={styles.instaImages} />
-                        <Image source={me} style={styles.instaImages} />
                         <Image source={me} style={styles.instaImages} />
                         <Image source={me} style={styles.instaImages} />
                         <Image source={me} style={styles.instaImages} />

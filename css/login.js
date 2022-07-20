@@ -47,10 +47,11 @@ export default StyleSheet.create({
         borderColor: 'red',
         borderRadius: 5,
         height: 75,
-
     },
     container: {
-        display: 'flex', alignItems: 'center', paddingTop: 10
+        display: 'flex',
+        alignItems: 'center',
+        paddingTop: 10
     },
     subContainer: {
         paddingTop: 10
@@ -59,9 +60,13 @@ export default StyleSheet.create({
         textAlign: 'center'
     },
     createNew: {
-        textAlign: 'center', color: 'blue'
+        textAlign: 'center',
+        color: 'blue'
     },
     errorMessage: {
-        color: 'red', paddingBottom: 25, textAlign: 'center', paddingTop: 7
+        color: 'red',
+        paddingBottom: 25,
+        textAlign: 'center',
+        paddingTop: 7
     }
 });

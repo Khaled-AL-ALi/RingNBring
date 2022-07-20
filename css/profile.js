@@ -43,7 +43,15 @@ export default StyleSheet.create({
         borderColor: '#E5E9F2',
         borderRadius: 5,
         height: 75,
-        marginBottom: 20
+        marginBottom: 15
+    },
+    inputFieldError: {
+        borderBottomWidth: 1,
+        borderColor: '#E5E9F2',
+        borderRadius: 5,
+        height: 75,
+        marginBottom: 15,
+        borderColor: 'red'
     },
     logOutText: {
         textAlign: 'center',
@@ -83,4 +91,9 @@ export default StyleSheet.create({
         position: 'absolute',
         right: 15,
     },
+    errorMessage: {
+        color: 'red',
+        paddingBottom: 20,
+        textAlign: 'center'
+    }
 });
